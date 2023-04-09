@@ -3,9 +3,10 @@ package com.bs.spring.memo.model.dao;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.bs.spring.memo.model.vo.Memo;
-
+@Repository
 public class MemoDaoImpl implements MemoDao {
 
 	@Override
