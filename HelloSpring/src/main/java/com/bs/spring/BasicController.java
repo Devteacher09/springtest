@@ -41,10 +41,10 @@ public class BasicController {
 		//두번째는 대입될 값을 선언
 		logger.info("세션값음 {}",session);
 		
-		
-		
-		
-		
+
+//		if(session!=null) {
+//			throw new IllegalArgumentException();
+//		}
 		
 		return "index";
 	}
