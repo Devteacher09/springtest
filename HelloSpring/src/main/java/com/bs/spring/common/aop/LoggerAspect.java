@@ -12,7 +12,6 @@ public class LoggerAspect {
 	//공통으로 실행할 메소드를 선언
 	//메소드를 선언할때는 선언방식이 advisor에 따라 정해져있음
 	//before advisor등록하기
-	
 	public void loggerBefore(JoinPoint jp) {
 		log.debug("===== before logger 실행 =====");
 		//jp를 이용해서 실행하는 메소드, 클래스명 출력하기
@@ -20,6 +19,16 @@ public class LoggerAspect {
 		log.debug(sig.getDeclaringTypeName()+" : "+sig.getName());
 		log.debug("===============================");
 	}
+	
+	
+	public void loggerAfter(JoinPoint jp) {
+		log.debug("====== after logger 실행 ======");
+		Signature sig=jp.getSignature();
+		log.debug(sig.getDeclaringTypeName()+" : "+sig.getName());
+		log.debug("===============================");
+	}
+	
+	
 	
 }
 
