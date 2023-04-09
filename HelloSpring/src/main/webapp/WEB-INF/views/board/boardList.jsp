@@ -27,9 +27,17 @@
 	            	<tr>
             			<td>${b.boardNo }</td>
             			<td>${b.boardTitle }</td>
-            			<td>${b.boardWriter }</td>
+            			<td>${b.boardWriter.userName }</td>
             			<td>${b.boardDate }</td>
-            			<td>첨부파일</td>
+            			<td>
+            				<c:if test="${empty b.files}">
+            					첨부파일없음
+            				</c:if>
+            				<c:if test="${not empty b.files }">
+            					<img src="${path }/resources/images/file.png"
+            					width="25"><span>(${b.files.size() })</span>
+            				</c:if>
+            			</td>
             			<td>${b.boardReadCount}</td>
 	            	</tr>
             	</c:forEach>

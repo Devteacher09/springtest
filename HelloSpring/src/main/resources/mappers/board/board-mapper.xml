@@ -8,7 +8,11 @@
 		<result column="boardreadcount" property="boardReadCount"/>
 		<association property="boardWriter" resultMap="memberMap"/>
 		<collection property="files" ofType="attachment">
-			
+			<id property="attachmentNo" column="attachmentno"/>
+			<result property="originalFilename" column="originalfilename"/>
+			<result property="renamedFilename" column="renmaedfilename"/>
+			<result property="uploadDate" column="uploaddate"/>
+			<result property="downloadCount" column="downloadcount"/>
 		</collection>
 	</resultMap>
 	<resultMap id="memberMap" type="member">
@@ -22,11 +26,11 @@
 		<result property="enrollDate" column="enrolldate"/>
 	</resultMap>
 	
-
-
-
-	<select id="boardList" resultType="board">
-		SELECT * FROM BOARD ORDER BY BOARDDATE DESC
+	<select id="boardList" resultMap="boardMap"><!-- resultType="board"> -->
+		SELECT * FROM BOARD B
+			JOIN MEMBER ON USERID=BOARDWRITER
+			LEFT JOIN ATTACHMENT A ON A.BOARDNO=B.BOARDNO 
+		ORDER BY BOARDDATE DESC
 	</select>
 	<select id="boardCount" resultType="_int">
 		SELECT COUNT(*) FROM BOARD
