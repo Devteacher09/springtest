@@ -10,7 +10,8 @@
 </style>
 <section id="content">
     <div id="memo-container">
-        <form action="" class="form-inline">
+        <form action="${path }/memo/insertMemo.do" class="form-inline"
+        method="post">
             <input type="text" class="form-control col-sm-6" name="memo" placeholder="메모" required/>&nbsp;
             <input type="password" class="form-control col-sm-2" name="password" maxlength="4" placeholder="비밀번호" required/>&nbsp;
             <button class="btn btn-outline-success" type="submit" >저장</button>
@@ -36,7 +37,7 @@
 	            		<td scope="col">${memo.memo }</td>
 	            		<td scope="col">${memo.memoDate }</td>
 	            		<td scope="col">
-	            			<button class="btn btn-outline-error">삭제</button>
+	            			<button class="btn btn-outline-danger">삭제</button>
 	            		</td>
 	            	</tr>
 	            </c:forEach>
