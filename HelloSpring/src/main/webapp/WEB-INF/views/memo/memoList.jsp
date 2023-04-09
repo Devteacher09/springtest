@@ -23,7 +23,7 @@
                 <th scope="col">번호</th>
                 <th scope="col">메모</th>
                 <th scope="col">날짜</th>
-                <th scope="col">삭제</th>
+                <th scope="col">비고</th>
             </tr>
             <c:if test="${empty memos }">
             	<tr>
@@ -37,6 +37,7 @@
 	            		<td scope="col">${memo.memo }</td>
 	            		<td scope="col">${memo.memoDate }</td>
 	            		<td scope="col">
+	            			<button class="btn btn-outline-primary">수정</button>
 	            			<button class="btn btn-outline-danger">삭제</button>
 	            		</td>
 	            	</tr>
