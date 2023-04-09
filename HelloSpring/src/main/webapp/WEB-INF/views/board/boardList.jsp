@@ -35,5 +35,12 @@
             	</c:forEach>
             </c:if>
         </table> 
+        <div id="pageBar">
+        	${pageBar }
+        </div>
 </section>
+
+
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

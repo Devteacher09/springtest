@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bs.spring.board.model.service.BoardService;
 import com.bs.spring.board.model.vo.Board;
+import com.bs.spring.common.PageBarFactory;
 
 @Controller
 @RequestMapping("/board")
@@ -30,10 +31,12 @@ public class BoardController {
 		
 		
 		int totalData=service.selectBoardCount();
+		
 		List<Board> list=service.selectBoardList(cPage,numPerpage);
 		
 		m.addAttribute("boards",list);
 		m.addAttribute("totalContents",totalData);
+		m.addAttribute("pageBar",PageBarFactory.getPageBar(cPage, numPerpage, totalData, "boardList.do"));
 		
 		return "board/boardList";
 	}
