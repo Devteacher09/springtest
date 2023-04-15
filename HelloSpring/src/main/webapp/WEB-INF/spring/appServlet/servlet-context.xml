@@ -68,18 +68,32 @@
 		
 	<!-- 인터셉터등록하기 -->
 	<interceptors>
-		<interceptor>
+<!-- 		<interceptor>
 			<mapping path="/member/*"/>
 			<beans:bean class="com.bs.spring.common.interceptor.LoggerInterceptor"/>
-		</interceptor>
+		</interceptor> -->
 		<!-- 로그인체크 인터셉터 -->
 		<interceptor>
 			<mapping path="/demo/*"/>
 			<exclude-mapping path="/demo/demo.do"/>
 			<beans:ref bean="loincheckInterceptor"/>
 		</interceptor>
+		<interceptor>
+			<mapping path="/board/*"/>
+			<beans:ref bean="loincheckInterceptor"/>
+		</interceptor>
 		
 	</interceptors>
+	
+	<!-- 파일 업로드처리할 resolver를 등록하기 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="104857600"/>	
+	</beans:bean>
+	
+	
+	
+	
 	
 	
 	

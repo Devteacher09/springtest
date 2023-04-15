@@ -12,4 +12,7 @@ public interface BoardService {
 	
 	int selectBoardCount();
 	
+	Board selectBoard(int no);
+	
+	
 }

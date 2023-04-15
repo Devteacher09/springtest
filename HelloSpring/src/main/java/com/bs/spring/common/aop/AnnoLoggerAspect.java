@@ -15,7 +15,6 @@ import org.springframework.util.StopWatch;
 import lombok.extern.slf4j.Slf4j;
 
 //어노테이션방식으로 aop적용하기
-@Component
 @Aspect
 @Slf4j
 public class AnnoLoggerAspect {

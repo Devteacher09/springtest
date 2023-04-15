@@ -6,6 +6,7 @@
 		<result column="boardtitle" property="boardTitle"/>
 		<result column="boarddate" property="boardDate"/>
 		<result column="boardreadcount" property="boardReadCount"/>
+		<result column="boardcontent" property="boardContent"/>
 		<association property="boardWriter" resultMap="memberMap"/>
 		<collection property="files" ofType="attachment">
 			<id property="attachmentNo" column="attachmentno"/>
@@ -24,6 +25,7 @@
 		<result property="phone" column="phone"/>
 		<result property="address" column="address"/>
 		<result property="enrollDate" column="enrolldate"/>
+		<result property="hobby" column="hobby" typeHandler="strArr"/>
 	</resultMap>
 	
 	<select id="boardList" resultMap="boardMap"><!-- resultType="board"> -->
@@ -36,4 +38,26 @@
 		SELECT COUNT(*) FROM BOARD
 	</select>
 	
+	<select id="selectBoard" resultMap="boardMap" parameterType="_int">
+		SELECT * FROM BOARD B
+			JOIN MEMBER ON USERID=BOARDWRITER
+			LEFT JOIN ATTACHMENT A ON A.BOARDNO=B.BOARDNO
+		WHERE B.BOARDNO=#{pk}
+	</select>
+	
+	<update id="updateReadCount" parameterType="_int">
+		UPDATE BOARD SET BOARDREADCOUNT=BOARDREADCOUNT+1 WHERE BOARDNO=${no}
+	</update>
+	
+	<insert id="insertBoard" parameterType="board">
+		INSERT INTO BOARD VALUES(SEQ_BOARDNO.NEXTVAL,#{boardTitle},
+		#{boardWriter.userId},#{boardContent},DEFAULT,DEFAULT)
+		<selectKey keyProperty="boardNo" resultType="_int" order="AFTER">
+			SELECT SEQ_BOARDNO.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	<insert id="insertAttachment" parameterType="attachment">
+		INSERT INTO ATTACHMENT VALUES(SEQ_ATTACHMENTNO.NEXTVAL,#{boardNo},
+		#{originalFilename},#{renamedFilename},default,default,default)
+	</insert>
 </mapper>

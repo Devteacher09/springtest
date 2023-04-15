@@ -7,7 +7,8 @@
 </jsp:include>
 <section id="board-container" class="container">
         <p>총 ${totalContents }건의 게시물이 있습니다.</p>
-        
+        <button class="btn btn-outline-success"
+        onclick="location.assign('${path}/board/boardWrite.do');">글쓰기</button>
         <table id="tbl-board" class="table table-striped table-hover">
             <tr>
                 <th>번호</th>
@@ -26,7 +27,11 @@
             	<c:forEach var="b" items="${boards }">
 	            	<tr>
             			<td>${b.boardNo }</td>
-            			<td>${b.boardTitle }</td>
+            			<td>
+            				<a href="${path}/board/boardView.do?no=${b.boardNo}">
+            					${b.boardTitle }
+            				</a>
+            			</td>
             			<td>${b.boardWriter.userName }</td>
             			<td>${b.boardDate }</td>
             			<td>
