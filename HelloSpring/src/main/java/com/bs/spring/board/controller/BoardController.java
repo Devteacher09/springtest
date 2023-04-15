@@ -1,16 +1,22 @@
 package com.bs.spring.board.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -127,8 +133,16 @@ public class BoardController {
 				.boardContent(boardContent)
 				.files(files)
 				.build();
-		
-		int result=service.insertBoard(b);
+		int result=0;
+		try {
+			result=service.insertBoard(b);
+		}catch(RuntimeException e) {
+			//업로드된 데이터 삭제
+			for(Attachment a : files) {
+				File f=new File(path+"/"+a.getRenamedFilename());
+				if(f.exists()) f.delete();
+			}
+		}
 		String msg="",loc="";
 		
 		if(result>0) {
@@ -144,6 +158,46 @@ public class BoardController {
 		
 		return "common/msg";
 	}
+	
+	
+	@RequestMapping("/filedownload.do")
+	public void fileDownload(String ori, String re,
+			HttpServletResponse res,HttpSession session,
+			@RequestHeader(value="User-agent") String header) {
+		//절대경로가져오기
+		String path=session.getServletContext()
+				.getRealPath("/resources/upload/board/");
+		File downFile=new File(path+re);
+		try(FileInputStream fis=new FileInputStream(downFile);
+				BufferedInputStream bis=new BufferedInputStream(fis);){
+			ServletOutputStream sos=res.getOutputStream();
+			
+			//파일명 인코딩하기
+			boolean isMS=header.contains("Trident")||header.contains("MSIE");
+			
+			String encodeName="";
+			if(isMS) {
+				encodeName=URLEncoder.encode(ori,"UTF-8");
+				encodeName=encodeName.replaceAll("\\+", "%20");
+			}else {
+				encodeName=new String(ori.getBytes("UTF-8"),"ISO-8859-1");
+			}
+			
+			res.setContentType("application/octet-stream;charset=utf-8");
+			res.setHeader("Content-Disposition","attachment;filename=\""+encodeName+"\"");
+			
+			int data=-1;
+			while((data=bis.read())!=-1) {
+				sos.write(data);
+			}
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
 	
 	
 	

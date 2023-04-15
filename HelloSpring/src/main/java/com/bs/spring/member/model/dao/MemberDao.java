@@ -1,5 +1,7 @@
 package com.bs.spring.member.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.bs.spring.member.model.vo.Member;
@@ -14,6 +16,7 @@ public interface MemberDao {
 	
 	int deleteMember(SqlSessionTemplate session,String userId);
 	
+	List<Member> selectMemberAll(SqlSessionTemplate session);
 }
 
 

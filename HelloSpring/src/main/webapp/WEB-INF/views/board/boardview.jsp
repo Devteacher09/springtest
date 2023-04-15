@@ -24,7 +24,7 @@ div#board-container label.custom-file-label{text-align:left;}
 			<c:forEach var="f" items="${board.files }">
                 <button type="button" 
                 class="btn btn-outline-success btn-block"
-                onclick="">
+                onclick="fileDownload('${f.originalFilename}','${f.renamedFilename}');">
                 	${f.originalFilename}
         		</button>
 			</c:forEach>        		
@@ -34,4 +34,16 @@ div#board-container label.custom-file-label{text-align:left;}
         <textarea class="form-control" name="boardContent" placeholder="내용" required>${board.boardContent}</textarea>
     </div>
 </section>
+
+<script>
+	const fileDownload=(ori,re)=>{
+		location.assign("${path}/board/filedownload.do?ori="+ori+"&re="+re);
+	}
+
+</script>
+
+
+
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

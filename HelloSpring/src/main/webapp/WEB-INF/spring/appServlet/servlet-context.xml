@@ -92,7 +92,18 @@
 	</beans:bean>
 	
 	
+	<!-- jackson bind등록하기 -->
+	<beans:bean id="jacksonbinder"
+	class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 	
+	
+	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:ref bean="jacksonbinder"/>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
 	
 	
 	

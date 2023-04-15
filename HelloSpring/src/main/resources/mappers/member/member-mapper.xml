@@ -17,6 +17,10 @@
 	</insert>
 	
 	
+	<select id="selectMemberAll" resultMap="memberMap">
+		SELECT * FROM MEMBER
+	</select>
+	
 	
 	
 </mapper>

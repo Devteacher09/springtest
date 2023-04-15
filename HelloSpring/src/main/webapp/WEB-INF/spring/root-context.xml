@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!--
@@ -20,6 +24,7 @@
 		<property name="username" value="SPRING"/>
 		<property name="password" value="SPRING"/>
 	</bean>
+	
 	<!-- sql문을 출력해주는 bean등록 -->
 	<bean id="proxyDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
 		<constructor-arg ref="dataSource"/>
@@ -40,6 +45,25 @@
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sessionFactory"/>
 	</bean>
+	
+	<!-- 트렌젝션설정하기 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="proxyDataSource"/>
+	</bean>
+	
+	<!-- 어노테이션이용해서 트렌젝션 관리하기 -->
+	<!-- <tx:annotation-driven transaction-manager="transactionManager"/> -->
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="insert*" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut expression="execution(* com.bs.spring.board.model.service..insert*(..))" id="transPoint"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="transPoint"/>
+	</aop:config>
 	
 		
 </beans>

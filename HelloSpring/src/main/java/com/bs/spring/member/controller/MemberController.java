@@ -1,19 +1,33 @@
 package com.bs.spring.member.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.bs.spring.member.model.service.MemberService;
 import com.bs.spring.member.model.vo.Member;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @SessionAttributes({"loginMember"})
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
 	
 	private MemberService service;
@@ -87,6 +101,50 @@ public class MemberController {
 		}
 		
 		return "common/msg";
+	}
+	
+	@RequestMapping("/duplicateId.do")
+	public void basicAjax(String userId,HttpServletResponse res,
+			PrintWriter out) 
+			throws IOException,ServletException {
+		
+		Member m=service.selectMemberById(userId);
+		
+		//res.setContentType("text/csv;charset=utf-8");
+		
+//		res.getWriter().print(m!=null?true:false);
+//		out.print(m!=null?true:false);
+		
+		ObjectMapper mapper=new ObjectMapper();
+		res.setContentType("application/json;charset=utf-8");
+		out.print(mapper.writeValueAsString(m));
+		
+	}
+	
+	//json방식의 데이터를 응답하는 메소드는 
+	//@ResponseBody어노테이션을 이용 -> restful구현했을때 적용
+	@RequestMapping("/duplicateId2.do")
+	public @ResponseBody Member jacksonbinder(String userId) {
+		
+		Member m=service.selectMemberById(userId);
+		
+		return m;
+	}
+	
+	
+	@RequestMapping("/memberList")
+	@ResponseBody
+	public List<Member> selectmemberAll(){
+		return service.selectMemberAll();
+	}
+	
+	//json방식으로 전송된 데이터 저장하기
+	@RequestMapping(value="/ajax/insert",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody boolean insertAjax(@RequestBody Member m) {
+		log.debug("{}",m);
+		return false;
 	}
 	
 	
