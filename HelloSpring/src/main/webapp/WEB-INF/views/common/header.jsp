@@ -71,6 +71,10 @@
 							<a href="${path }/">
 								<c:out value="${loginMember.userName }"/>
 							</a>님 환영합니다.
+							<button class="btn btn-outline-primary my-2 my-sm-0"
+							onclick="openChatting();">
+								채팅하기
+							</button>
 							<button class="btn btn-outline-success my-2 my-sm-0"
 							onclick="location.assign('${path}/member/logout.do')">
 							로그아웃</button>
@@ -107,3 +111,10 @@
 				</div>
 			</div>
 		</div>
+	<script>
+		const openChatting=()=>{
+			open("${pageContext.request.contextPath}/openchatting.do",
+					"_blank","width=400,height=800");
+		}
+	
+	</script>
