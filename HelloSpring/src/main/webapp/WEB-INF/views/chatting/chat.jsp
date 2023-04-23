@@ -11,6 +11,10 @@
 </head>
 <body>
 	<div id="inputContainer">
+		대상 
+		<select id="receiver">
+			
+		</select>
 		<input type="text" id="msg"><button id="sendMsg">전송</button>
 	</div>
 	<div id="msgContainer">
@@ -49,7 +53,8 @@
 			$("#msgContainer").append(messagecontainer); */
 			switch(data.type){
 				case "system": addMsgSystem(data);break;
-				case "msg" : break;
+				case "msg" : printMsg('${loginMember.userId}',data);break;
+				case "attendClient":attendClient(JSON.parse(data.msg));break;
 			}
 		}
 		websocket.onclose=e=>{
@@ -63,7 +68,7 @@
 			//csv방식으로 전송하기
 			//sender,receiver,msg
 			const sender='${loginMember.userId}';
-			const receiver='';
+			const receiver=$("#receiver").val();
 			
 			const sendMessage=new Message("msg",sender,receiver,msg,'');
 			
@@ -72,7 +77,16 @@
 			websocket.send(JSON.stringify(sendMessage));//서버의 hadleTextMessage메소드가 실행.
 		});
 		
-		class Message{
+		
+		function Message(type,sender,receiver,msg,room){
+			this.type=type;
+			this.sender=sender;
+			this.receiver=receiver;
+			this.msg=msg;
+			this.room=room;
+		}
+		
+		/* class Message{
 			constructor(type,sender,receiver,msg,room){
 				this.type=type;
 				this.sender=sender;
@@ -80,7 +94,7 @@
 				this.msg=msg;
 				this.room=room;
 			}
-		}
+		} */
 	</script>
 	
 	
