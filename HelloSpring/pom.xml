@@ -220,7 +220,12 @@
 		    <version>2.14.2</version>
 		</dependency>
 		
-		
+		<!-- websocket모듈 의존성등록하기 -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
 		
 		
 		
