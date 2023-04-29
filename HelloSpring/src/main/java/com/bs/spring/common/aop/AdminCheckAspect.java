@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AdminCheckAspect {
 
-	@Before("execution(* com.bs.spring.memo..select*(..))")
+	//@Before("execution(* com.bs.spring.memo..select*(..))")
 	public void admincheck(JoinPoint jp) {
 		//1. 로그인정보를 가져오기
 		//RequestContextHolder클래스를 이용해서 request정보를 가져올 수 있음

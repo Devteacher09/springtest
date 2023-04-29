@@ -6,7 +6,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd">
-
+	
+	<import resource="root-context.xml"/>
 	<!-- 
 		패스워드 암호화처리해주는 클래스를 spring bean으로 등록하고 사용하자
 		BCrpytPasswordEncoder클래스를 제공한다. 
@@ -40,14 +41,18 @@
 		<!-- 로그아웃 주소 설정하기 -->
 		<security:logout logout-url="/logout.do" logout-success-url="/"/>
 		
-		
+		<!-- 권한에 맞지않는 주소에 접근했을때 페이지 지정 -->
+		<security:access-denied-handler error-page="/WEB-INF/views/error/accessError.jsp"/>
 			
 		<security:csrf disabled="true"/>
 		<!-- 접속할 주소를 차단하기 -->
 		<security:intercept-url pattern="/" access="permitAll()"/>
 		<security:intercept-url pattern="/resources/**" access="permitAll()"/>
 		<security:intercept-url pattern="/member/loginpage.do" access="permitAll()"/>
-		<security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER,ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/member/enroll*" access="permitAll()"/>
+		<security:intercept-url pattern="/memo/**" access="hasAuthority('ADMIN')"/>
+		<security:intercept-url pattern="/seller/**" access="hasAnyAuthority('SELLER','ADMIN')"/>
+		<security:intercept-url pattern="/**" access="hasAnyAuthority('USER,ADMIN')"/>
 	</security:http>
 	
 	
@@ -57,7 +62,7 @@
 		2. DBbase의 값과 연동해서 인증받기
 	 -->
 	 <security:authentication-manager>
-	 	<security:authentication-provider>
+	 	<!-- <security:authentication-provider>
 	 		<security:user-service>
 	 			<security:user name="admin" authorities="ROLE_ADMIN"
 	 			password="$2a$10$DSqv6YvEjBxWB.gSGTIzUO4oCj2VHP12hynCyY7Iey1eCbHR64NwW"/>
@@ -65,9 +70,24 @@
 	 			password="$2a$10$DSqv6YvEjBxWB.gSGTIzUO4oCj2VHP12hynCyY7Iey1eCbHR64NwW"/>
 	 		</security:user-service>
 	 		<security:password-encoder ref="bcryptPasswordEncoder"/>
+	 	</security:authentication-provider> -->
+	 	
+	 	<!-- DB와 연동해서 인증처리하기
+	 		1. 인증한 내용(loginMember)을을 저장할 클래스를 생성 
+	 			-> User(클래스), UserDetails인터페이스를 구현
+	 		2. DB에 접속해서 인증처리할 클래스(Service)를 생성
+	 			-> UserDetailsService 인터페이스를 구현
+	 		3. 생성한 인증처리 클래스를 provider에 등록
+	 	 -->
+	 	<security:authentication-provider user-service-ref="loginService">
+	 		<security:password-encoder ref="bcryptPasswordEncoder"/>
 	 	</security:authentication-provider>
 	 </security:authentication-manager>
-	
+	<bean id="dao" class="com.bs.spring.member.model.dao.MemberDaoImpl"/>
+	<bean id="loginService" class="com.bs.spring.security.SecurityService">
+		<constructor-arg index="0" ref="dao"/>
+		<constructor-arg index="1" ref="sqlSessionTemplate"/>
+	</bean>
 	
 	
 	

@@ -32,7 +32,7 @@
             					${b.boardTitle }
             				</a>
             			</td>
-            			<td>${b.boardWriter.userName }</td>
+            			<td>${b.boardWriter.name }</td>
             			<td>${b.boardDate }</td>
             			<td>
             				<c:if test="${empty b.files}">

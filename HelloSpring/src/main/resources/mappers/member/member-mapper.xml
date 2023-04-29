@@ -11,7 +11,7 @@
 	</select>
 	
 	<insert id="insertMember" parameterType="member">
-		INSERT INTO MEMBER VALUES(#{userId},#{password},#{userName},
+		INSERT INTO MEMBER VALUES(#{userId},#{password},#{name},
 			#{gender},#{age},#{email},#{phone},#{address},
 			#{hobby, typeHandler=strArr},SYSDATE)
 	</insert>
