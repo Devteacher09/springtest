@@ -26,8 +26,10 @@
 			<!-- 
 				Entity로 등록한 클래스를 자동으로 DB에 생성해주는 설정
 				최초개발, 개발중... 테스트용으로 할때 사용, 실운영 중에는 조심...
+				create, update, create-drop, validate, none
 			 -->
-			 <property name="hibernate.hbm2ddl.auto" value="create"/>
+			 <property name="hibernate.hbm2ddl.auto" 
+			 value="update"/>
 			
 			
 		</properties>

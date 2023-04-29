@@ -78,6 +78,12 @@
 	
 	</script>
 	
+	<div id="jpacontainer">
+		<h3><a href="${path }/jpa/basicjpa">기본 jpa구문활용하기</a></h3>
+	</div>
+	
+	
+	
 	
 	
 </section>

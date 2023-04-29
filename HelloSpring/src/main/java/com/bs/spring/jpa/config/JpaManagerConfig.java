@@ -1,5 +1,10 @@
 package com.bs.spring.jpa.config;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -15,8 +20,17 @@ public class JpaManagerConfig {
 	//EntityManagerFatory를 생성하는 과정은 비용이 크기때문에 애플리케션에서 한번만 
 	//생성하는게 좋다!
 	
+	@Bean
+	public EntityManagerFactory entityManagerFactory() {
+		//persistence.xml에 설정한 name값으로 Fatory를 생성
+		EntityManagerFactory emf=Persistence.createEntityManagerFactory("bstest");
+		return emf;
+	}
 	
-	
+	@Bean
+	public EntityManager entityManager() {
+		return entityManagerFactory().createEntityManager();
+	}
 	
 }
 
