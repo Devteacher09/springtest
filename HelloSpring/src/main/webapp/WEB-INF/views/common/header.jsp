@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="path" value="${pageContext.request.contextPath }"/>    
+<c:set var="path" value="${pageContext.request.contextPath }"/> 
+<c:set var="login" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,6 +27,10 @@
 		<header>
 			<div id="header-container">
 				<h2>${param.title }</h2>
+				<p>
+					시큐리티session값 가져오기
+					<span>${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}</span>
+				</p>				
 			</div>
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<a class="navbar-brand" href="#">
@@ -59,17 +64,17 @@
 							href="${path }/memo/memoList.do">Memo</a>
 						</li>
 					</ul>
-					<c:if test="${loginMember==null }">
+					<c:if test="${empty login }">
 						<button class="btn btn-outline-success my-2 my-sm-0"
 						data-toggle="modal" data-target="#loginModal">로그인</button>
 						&nbsp;
 						<button class="btn btn-outline-success my-2 my-sm-0"
 						onclick="location.assign('${path}/member/enrollMember.do');">회원가입</button>
 					</c:if>
-					<c:if test="${loginMember!=null }">
+					<c:if test="${not empty login }">
 						<span>
 							<a href="${path }/">
-								<c:out value="${loginMember.userName }"/>
+								<c:out value="${login.username }"/>
 							</a>님 환영합니다.
 							<button class="btn btn-outline-primary my-2 my-sm-0"
 							onclick="openChatting();">

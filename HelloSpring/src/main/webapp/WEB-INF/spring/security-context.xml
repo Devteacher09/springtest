@@ -37,7 +37,11 @@
 			authentication-failure-forward-url="/error.do"
 			authentication-success-forward-url="/successLogin.do"
 		/>	 
+		<!-- 로그아웃 주소 설정하기 -->
+		<security:logout logout-url="/logout.do" logout-success-url="/"/>
 		
+		
+			
 		<security:csrf disabled="true"/>
 		<!-- 접속할 주소를 차단하기 -->
 		<security:intercept-url pattern="/" access="permitAll()"/>
