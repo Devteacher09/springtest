@@ -5,7 +5,7 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.1.xsd">
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd">
 
 	<!-- 
 		패스워드 암호화처리해주는 클래스를 spring bean으로 등록하고 사용하자
@@ -13,6 +13,49 @@
 	-->
 	<bean id="bcryptPasswordEncoder" 
 	class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	
+	<!-- 클라이언트 요청에 대한 인증처리 설정하기 -->
+	<security:http auto-config="true">
+		<!-- 
+			로그인처리로직을 설정 -> 인증처리 (id, password)
+			form-login태그 이용하기 : 로그인처리, 페이지에 대한 설정
+			속성이용
+			username-parameter : 로그인처리시 id 파라미터 name값
+			password-parameter : 로그인처리시 password 파라미터 name값
+			default-target-url : 로그인 성공시 기본으로 연결되는 페이지
+			login-page : security가 제공하는 기본로그인페이지외 개발자가 작성한 페이지로 이동할때 설정
+			authentication-failure-forward-url : 인증실패시 연결되는 url주소
+			authentication-success-forward-url : 인증성공시 연결되는 url주소
+			login-processing-url : 로그인처리 url등록
+		 -->
+		<!-- <security:form-login
+			default-target-url="/"
+		/>	  -->
+		
+		<security:csrf disabled="true"/>
+		<!-- 접속할 주소를 차단하기 -->
+		<security:intercept-url pattern="/" access="permitAll()"/>
+		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+	</security:http>
+	
+	
+	<!-- 
+		인증받을 방법을 설정하기
+		1. in-momery방식 고정값으로 인증받기
+		2. DBbase의 값과 연동해서 인증받기
+	 -->
+	 <security:authentication-manager>
+	 	<security:authentication-provider>
+	 		<security:user-service>
+	 			<security:user name="admin" authorities="ROLE_ADMIN"
+	 			password="1234"/>
+	 		</security:user-service>
+	 	</security:authentication-provider>
+	 </security:authentication-manager>
+	
+	
+	
+	
 	
 
 
