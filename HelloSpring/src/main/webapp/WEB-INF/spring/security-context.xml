@@ -28,14 +28,22 @@
 			authentication-success-forward-url : 인증성공시 연결되는 url주소
 			login-processing-url : 로그인처리 url등록
 		 -->
-		<!-- <security:form-login
+		<security:form-login
+			login-page="/member/loginpage.do"
+			username-parameter="userId"
+			password-parameter="pw"
+			login-processing-url="/loginend.do"
 			default-target-url="/"
-		/>	  -->
+			authentication-failure-forward-url="/error.do"
+			authentication-success-forward-url="/successLogin.do"
+		/>	 
 		
 		<security:csrf disabled="true"/>
 		<!-- 접속할 주소를 차단하기 -->
 		<security:intercept-url pattern="/" access="permitAll()"/>
-		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/resources/**" access="permitAll()"/>
+		<security:intercept-url pattern="/member/loginpage.do" access="permitAll()"/>
+		<security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER,ROLE_ADMIN')"/>
 	</security:http>
 	
 	
@@ -48,8 +56,11 @@
 	 	<security:authentication-provider>
 	 		<security:user-service>
 	 			<security:user name="admin" authorities="ROLE_ADMIN"
-	 			password="1234"/>
+	 			password="$2a$10$DSqv6YvEjBxWB.gSGTIzUO4oCj2VHP12hynCyY7Iey1eCbHR64NwW"/>
+	 			<security:user name="user01" authorities="ROLE_USER"
+	 			password="$2a$10$DSqv6YvEjBxWB.gSGTIzUO4oCj2VHP12hynCyY7Iey1eCbHR64NwW"/>
 	 		</security:user-service>
+	 		<security:password-encoder ref="bcryptPasswordEncoder"/>
 	 	</security:authentication-provider>
 	 </security:authentication-manager>
 	

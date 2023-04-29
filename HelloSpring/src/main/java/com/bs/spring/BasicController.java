@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bs.spring.common.AdminCheckException;
+
 @Controller
 public class BasicController {
 	//log4j로 출력하기 위해서는 
@@ -48,6 +50,20 @@ public class BasicController {
 		
 		return "index";
 	}
+	
+	@RequestMapping("/error.do")
+	public void error() {
+		throw new AdminCheckException("로그인 실패");
+	}
+	
+	@RequestMapping("/successLogin.do")
+	public String successLogin() {
+		logger.debug("로그인 성공");
+		return "redirect:/";
+	}
+	
+	
+	
 	
 	
 }

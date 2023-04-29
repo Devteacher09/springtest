@@ -147,7 +147,10 @@ public class MemberController {
 		return false;
 	}
 	
-	
+	@RequestMapping("/loginpage.do")
+	public String loginPage() {
+		return "member/loginpage";
+	}
 	
 }
 
