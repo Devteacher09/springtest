@@ -6,6 +6,53 @@
 	<jsp:param value="MainPage" name="title"/>
 </jsp:include>
 <section id="content">
+	<div id="jpacontainer">
+		<h3><a href="${path }/jpa/basicjpa">기본 jpa구문활용하기</a></h3>
+		<h3><a href="${path }/jpa/inesrtjpa">기본 입력하기</a></h3>
+		<h3><a href="${path }/jpa/member?no=1">회원조회</a></h3>
+		<h3><a href="${path }/jpa/members">전체회원조회</a></h3>
+		<h3><a href="${path }/jpa/dev?no=1">dev데이터가져오기</a></h3>
+		<div>
+			<h3>나이로 회원검색</h3>
+			<form action="${path }/jpa/searchage">
+				<input type="number" min="10" name="age">
+				<input type="submit" value="검색"/>
+			</form>
+		</div>
+		<div>
+			<h3>회원저장하기</h3>
+			<form action="${path }/jpa/inesrtmember" method="post">
+				아이디<input	type="text" name="memberId"><br>
+				패스워드<input	type="text" name="memberPwd"><br>
+				나이<input	type="number" name="age"><br>
+				키<input	type="number" name="height"><br>
+				소개<textarea cols="30" rows="10" style="resize:none" name="info"></textarea><br>
+				<input	type="submit" value="회원가입"><Br>
+			</form>
+			<h3>회원수정하기</h3>
+			<form action="${path }/jpa/updatemember" method="post">
+				나이<input	type="number" name="age"><br>
+				키<input	type="number" name="height"><br>
+				소개<textarea cols="30" rows="10" style="resize:none" name="info"></textarea><br>
+				<input type="hidden" name="memberNo" value="21"/>
+				<input	type="submit" value="정보수정하기"><Br>
+			</form>
+			<h3>회원정보삭제</h3>
+			<form action="${path }/jpa/deletemember">
+				<input type="text" name="memberNo">
+				<input type="submit" value="검색"/>
+			</form>
+		</div>
+		
+		<h2>연관관계설정한 entity관리하기</h2>
+		<h3><a href="${path }/jpa/onetoone">일대일관계 저장하기</a></h3>
+		
+		
+		
+		
+		
+		
+	</div>
 	<h2>Hello Spring</h2>
 	<img src="${path }/resources/images/logo-spring.png" id="center-image"
 	alt="스프링로고"/>
@@ -78,9 +125,7 @@
 	
 	</script>
 	
-	<div id="jpacontainer">
-		<h3><a href="${path }/jpa/basicjpa">기본 jpa구문활용하기</a></h3>
-	</div>
+	
 	
 	
 	
