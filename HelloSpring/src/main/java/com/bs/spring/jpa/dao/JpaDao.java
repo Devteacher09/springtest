@@ -6,16 +6,20 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
 import com.bs.spring.jpa.common.MemberLevel;
+import com.bs.spring.jpa.entity.Club;
 import com.bs.spring.jpa.entity.Dev;
 import com.bs.spring.jpa.entity.JpaMember;
 import com.bs.spring.jpa.entity.JpaTest;
 import com.bs.spring.jpa.entity.Locker;
 import com.bs.spring.jpa.entity.Student;
+import com.bs.spring.jpa.entity.Subject;
+import com.bs.spring.jpa.entity.SubmitSubject;
 
 @Repository
 public class JpaDao {
@@ -111,14 +115,97 @@ public class JpaDao {
 				.color("빨강")
 				.floor(1)
 				.build();
+		
+		Club c=Club.builder()
+				.name("코딩")
+				.position("컴퓨터실")
+				.build();
+		
+		Student s1=Student.builder()
+				.studentName("박세현")
+				.classNumber(2)
+				.grade(2)
+				.gender("남")
+				.build();
+		
+		s1.setClub(c);
+		
+		s.setClub(c);
 		s.setLocker(l);
+		
+		em.persist(c);
 		em.persist(l);
 		em.persist(s);
-		
-		
+		em.persist(s1);
+	}
+	
+	public Student selectStudent(EntityManager em, Long no) {
+		return em.find(Student.class,no);
+	}
+	public Locker selectLocker(EntityManager em, Long no) {
+		return em.find(Locker.class, no);
+	}
+	
+	public Club selectClub(EntityManager em, Long no) {
+		return em.find(Club.class, no);
 	}
 	
 	
+	public void insertSubject(EntityManager em) {
+		Student s=Student.builder()
+				.studentName("한호현")
+				.classNumber(4)
+				.grade(3)
+				.gender("남")
+				.build();
+		Student s1=Student.builder()
+				.studentName("이동명")
+				.classNumber(2)
+				.grade(2)
+				.gender("남")
+				.build();
+		Subject sub=Subject.builder().subjectName("자바").teacherName("유병승").build();
+		Subject sub1=Subject.builder().subjectName("c언어").teacherName("유병승").build();
+		Subject sub2=Subject.builder().subjectName("파이썬").teacherName("유병승").build();
+		Subject sub3=Subject.builder().subjectName("spring").teacherName("유병승").build();
+		
+		
+//		s.setSubjects(List.of(sub,sub3,sub2));
+//		s1.setSubjects(List.of(sub1,sub2,sub3));
+		
+		
+		
+		SubmitSubject ss=SubmitSubject.builder().subject(sub3).student(s)
+				.submitDate(new Date(System.currentTimeMillis())).build();
+		SubmitSubject ss1=SubmitSubject.builder().subject(sub3).student(s1)
+				.submitDate(new Date(System.currentTimeMillis())).build();
+		
+		em.persist(ss1);
+		em.persist(ss);
+		
+		Student s3=em.find(Student.class, 101L);
+		Subject sub4=em.find(Subject.class, 21L);
+		
+		SubmitSubject ss2=SubmitSubject.builder().subject(sub4).student(s3)
+				.submitDate(new Date(System.currentTimeMillis())).build();
+		
+		em.persist(ss2);
+		
+		
+		
+		
+		
+		em.persist(s);
+		em.persist(s1);
+		em.persist(sub);
+		em.persist(sub1);
+		em.persist(sub2);
+		em.persist(sub3);
+		
+	}
 	
+	public Subject selectSubJect(EntityManager em, Long no) {
+		return em.find(Subject.class,no);
+	}
 	
 }

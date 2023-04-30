@@ -1,10 +1,12 @@
 package com.bs.spring.jpa.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -20,21 +22,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@SequenceGenerator(name = "seq_lockerNo", sequenceName = "seq_lockerNo", 
-	allocationSize = 1,initialValue = 1)
-//Json에러를 처리하기 위해서
+@SequenceGenerator(name="seq_clubNo",sequenceName="seq_clubNo",
+initialValue=1,allocationSize=1)
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
-public class Locker {
+public class Club {
 	@Id
-	@GeneratedValue(generator = "seq_lockerNo", strategy = GenerationType.SEQUENCE)
-	private Long lockerNo;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_clubNo")
+	private Long clubNo;
+	private String name;
 	
-	private int floor;
+	private String position;
 	
-	private String color;
-	
-	@OneToOne(mappedBy = "locker")
-	private Student s;
+	@OneToMany(mappedBy = "club")
+	private List<Student> students;
 	
 	
 }
+
+
+
+
+

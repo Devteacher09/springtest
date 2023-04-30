@@ -46,10 +46,11 @@
 		
 		<h2>연관관계설정한 entity관리하기</h2>
 		<h3><a href="${path }/jpa/onetoone">일대일관계 저장하기</a></h3>
-		
-		
-		
-		
+		<h3><a href="${path }/jpa/student/21">21번학생 조회</a></h3>
+		<h3><a href="${path }/jpa/locker/1">1번 사물함조회</a></h3>
+		<h3><a href="${path }/jpa/club/21">1번 클럽조회</a></h3>
+		<h3><a href="${path }/jpa/subject">수강신청</a></h3>
+		<h3><a href="${path }/jpa/subject/">수강신청</a></h3>
 		
 		
 	</div>

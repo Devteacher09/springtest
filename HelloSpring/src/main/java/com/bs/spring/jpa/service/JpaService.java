@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bs.spring.jpa.dao.JpaDao;
+import com.bs.spring.jpa.entity.Club;
 import com.bs.spring.jpa.entity.Dev;
 import com.bs.spring.jpa.entity.JpaMember;
 import com.bs.spring.jpa.entity.JpaTest;
+import com.bs.spring.jpa.entity.Locker;
+import com.bs.spring.jpa.entity.Student;
+import com.bs.spring.jpa.entity.Subject;
 
 @Service
 public class JpaService {
@@ -87,7 +91,25 @@ public class JpaService {
 		et.commit();
 	}
 	
-	
+	public Student selectStudent(Long no) {
+		return dao.selectStudent(manager,no);
+	}
+	public Locker selectLocker(Long no) {
+		return dao.selectLocker(manager,no);
+	}
+	public Club selectClub(Long no) {
+		return dao.selectClub(manager,no);
+	}
+
+	public void insertSubject() {
+		EntityTransaction et=manager.getTransaction();
+		et.begin();
+			dao.insertSubject(manager);
+		et.commit();
+	}
+	public Subject selectSubJect(Long no) {
+		return dao.selectSubJect(manager, no);
+	}
 	
 	
 }
