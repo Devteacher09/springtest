@@ -20,9 +20,9 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
 	destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="url" value="jdbc:oracle:thin:@14.36.141.71:8877:xe"/>
 		<property name="username" value="SPRING"/>
-		<property name="password" value="SPRING"/>
+		<property name="password" value="spring"/>
 	</bean>
 	
 	<!-- sql문을 출력해주는 bean등록 -->
