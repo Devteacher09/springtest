@@ -7,11 +7,11 @@
 			<property name="javax.persistence.jdbc.driver"
 			value="oracle.jdbc.driver.OracleDriver"/>
 			<property name="javax.persistence.jdbc.url"
-			value="jdbc:oracle:thin:@localhost:1521:xe"/>
+			value="jdbc:oracle:thin:@14.36.141.71:8877:xe"/>
 			<property name="javax.persistence.jdbc.user"
 			value="SPRING"/>
 			<property name="javax.persistence.jdbc.password"
-			value="SPRING"/>
+			value="spring"/>
 			
 			<!-- 
 				jpa에 적용할 DB설정 -> 방언설정
